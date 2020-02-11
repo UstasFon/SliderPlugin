@@ -3,8 +3,9 @@ var webpack = require('webpack');
 
 module.exports = {
   devServer: {
+    open: true,
     inline: true,
-    contentBase: 'src',
+    contentBase: './dist',
     port: 9000,
     proxy: {
       '/api': 'http://localhost:3000'
@@ -16,17 +17,46 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      },
+      {
+        test: /\.(png|jpeg|gif|ttf|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
       },
       {
         test: /\.scss/,
-        use: ['style-loader', 'css-loader','scss-loader']
+        use: ['style-loader', 'css-loader', { loader: 'sass-loader', options: {} }]
+      },
+      {
+        test: /\.(html)$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            interpolate: true,
+          },
+        },
+      },
+      {
+        test: /\.(jpg)$/,
+        use: {
+          loader: 'url-loader',
+        },
       }
     ]
   },
   output: {
-    path: path.join(__dirname, "/public"),
-    filename: "public/index.js"
-  }
+    path: path.join(__dirname, "/dist"),
+    filename: "js/bundle.js",
+    publicPath: '/'
+  },
 };

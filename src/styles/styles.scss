@@ -1,0 +1,65 @@
+.plugin {
+  margin: 0 auto;
+  max-width: 1280px;
+  min-width: 320px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+
+  &_tape {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__item {
+      width: 114px;
+      height: 77px;
+      background-color: cyan;
+    }
+  }
+
+  &_view {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+  }
+}
+
+.view {
+  &_wrapper {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+
+  }
+
+  &_image__wrapper {
+    width: 975px;
+    height: 575px;
+    background-color: cyan;
+  }
+
+  &_arrow {
+    width: 40px;
+    height: 40px;
+    transform: rotate(45deg);
+    margin: 0 auto;
+  }
+}
+
+.right {
+  border-left: 7px solid black;
+  border-bottom: 7px solid black;
+}
+
+.left {
+  border-right: 7px solid black;
+  border-top: 7px solid black;
+}
