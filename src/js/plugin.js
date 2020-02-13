@@ -1,8 +1,10 @@
 import jquery from 'jquery';
 
 import { getAlbums, getAlbumImages, getImage } from './api';
-import { getPhotoIds, albumReducer } from './helper';
+import { getPhotoIds } from './helper';
+import { albumReducer, prevImagesReducer, getPlugin, getAlbumsTape, getView, getPhotos } from './templates';
 import index from '../styles/styles.scss';
+import { pluginWrapp } from './constants';
 
 
 class Plugin {
@@ -31,6 +33,7 @@ class Plugin {
             .then((album) => {
                 this.album = album;
                 this.photos = album.photoset.photo;
+                console.log(this.photos);
                 let photoIds = getPhotoIds(this.photos, this.photoPageSize, this.photoPage);
                 return Promise.all(
                     photoIds.map((id) => getImage(id))
@@ -40,9 +43,25 @@ class Plugin {
                 alert("Sorry, damned nakers stole photos from the gallery. But we hired a witcher and he will soon solve the problem");
             })
             .then((data) => {
+                this.photosArr = data;
+                console.log(this.photosArr);
                 const albumsList = this.albums.reduce(albumReducer, '');
-                console.log(albumsList);
-            });
+                const firstPagePhotos = this.photosArr.slice(0, 5).reduce(prevImagesReducer, '');
+                const albumTape =  getAlbumsTape(albumsList);
+                const photoTape = getPhotos(firstPagePhotos);
+                const view =  getView(this.photosArr[0]);
+                const plugin = getPlugin(albumTape, view, photoTape);
+                pluginWrapp.innerHTML = plugin;
+            })
+            .catch(() => {
+
+            })
+            .then(this.attachEvents);
+
+    }
+
+    attachEvents() {
+
     }
 }
 

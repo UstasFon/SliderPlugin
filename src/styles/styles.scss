@@ -14,9 +14,14 @@
     justify-content: space-between;
 
     &__item {
-      width: 114px;
-      height: 77px;
-      background-color: cyan;
+      max-width: 240px;
+      max-height: 135px;
+    }
+
+    &__image {
+      max-width: 240px;
+      max-height: 135px;
+
     }
   }
 
@@ -51,6 +56,21 @@
     height: 40px;
     transform: rotate(45deg);
     margin: 0 auto;
+  }
+}
+
+.tape {
+
+  &_item {
+
+    &__album {
+      max-width: 240px;
+      max-height: 135px;
+      background-color: transparent;
+    }
+
+    &__name {
+    }
   }
 }
 
