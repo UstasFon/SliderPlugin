@@ -1,17 +1,18 @@
+import {pluginName} from "./constants";
+
 export const albumReducer = ((albums, { title: { _content: title }, id: albumID}) => {
     const albumTemplate =
-        `<div class="plugin_tape__item">
-                <img id="${albumID}" src="../../images/folder.png" alt="" class="tape_item__album">
+        `<div album-id="${albumID}" class="plugin_tape__item">
                 <p class="tape_item__name">${title}</p>
          </div>`;
     return  albums + albumTemplate;
 });
 
-export const prevImagesReducer = (images, { sizes: { size } }) => {
+export const prevImagesReducer = (images, { sizes, id: photoId  }) => {
     const sizeName = 'Small';
-    const currentSize =  size.find((elem) => elem.label === sizeName);
+    const currentSize =  sizes.find((elem) => elem.label === sizeName);
     const imageTemplate =
-        `<div class="plugin_tape__item">
+        `<div photo-id="${photoId}" class="plugin_tape__item">
              <img src="${currentSize.source}" alt="" class="tape_item__image">
          </div>`
     return images + imageTemplate;
@@ -25,29 +26,30 @@ export const getPlugin = (albumsTape, view, photoTape) => (
      </div>`
 );
 
-export const getAlbumsTape = (albumsList) => (
-    `<div id="" class="plugin_tape">${albumsList}</div>`
+export const getAlbumsTape = (albumsList, pluginName) => (
+    `<div id="${pluginName}Album" class="plugin_tape">${albumsList}</div>`
 );
 
-export const getView = ({ sizes: { size }}) => {
+export const getView = ({ sizes }, pluginName) => {
     const fulSizeName = 'Original';
-    const currentViewSize = size.find((elem) => elem.label === fulSizeName);
+    //TODO - move this shit(fulSizeName) to global const
+    const currentViewSize = sizes.find((elem) => elem.label === fulSizeName);
     const viewElement =
         `<div id="view" class="plugin_view">
             <div class="view_wrapper">
-                <div class="view_arrow right"></div>
+                <div id="${pluginName}ArrowLeft" class="view_arrow left"></div>
             </div>
             <div class="view_image__wrapper">
                 <img src="${currentViewSize.source}" alt="" class="view_image">
             </div>
             <div class="view_wrapper">
-                <div class="view_arrow left"></div>
+                <div id="${pluginName}ArrowRight" class="view_arrow right"></div>
             </div>
         </div>`;
 
     return viewElement;
 };
 
-export const getPhotos = (firstPagePhotos) => (
-    `<div id="image" class="plugin_tape">${firstPagePhotos}</div>`
+export const getPhotos = (firstPagePhotos, pluginName) => (
+    `<div id="${pluginName}Images" class="plugin_tape">${firstPagePhotos}</div>`
 );

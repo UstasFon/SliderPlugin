@@ -1,3 +1,4 @@
-export const pluginWrapp = document.querySelector('.plugin');
+export const PLUGIN_WRAP = '.plugin';
+export const PLUGIN_NAME ='studyPlugInCorp';
 
 
