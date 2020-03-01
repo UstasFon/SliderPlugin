@@ -1,31 +1,29 @@
 import $ from "jquery";
 
-const apiKey = "5de920292755500b8a793e755f255045";
-
-export let getAlbums = function () {
+export let getAlbums = function ({ userId, apiKey }) {
     return $.get("https://www.flickr.com/services/rest",
         {
             method: "flickr.photosets.getList",
             api_key: apiKey,
-            user_id: "186386015@N03",
+            user_id: userId,
             format: "json",
             nojsoncallback: "1"
         });
 };
 
-export let getAlbumImages = function (id) {
+export let getAlbumImages = function (id, { userId, apiKey }) {
         return $.get("https://www.flickr.com/services/rest/",
             {
                method: "flickr.photosets.getPhotos",
                api_key: apiKey,
                photoset_id: id,
-               user_id: "186386015@N03",
+               user_id: userId,
                format: "json",
                nojsoncallback: "1"
             });
 };
 
-export let getImage = function (photoId) {
+export let getImage = function (photoId, { apiKey }) {
     return $.get("https://www.flickr.com/services/rest/?",
         {
             method: "flickr.photos.getSizes",

@@ -1,3 +1,9 @@
-import { slider } from './js/plugin';
+import jquery from 'jquery';
 
-console.log(slider);
+import Plugin from './js/plugin';
+
+jquery.fn.plugin = function(params) {
+    Object.assign(this, new Plugin(params));
+};
+
+jquery('.plugin').plugin();

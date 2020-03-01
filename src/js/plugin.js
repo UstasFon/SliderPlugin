@@ -5,19 +5,25 @@ import { albumReducer, prevImagesReducer, getPlugin, getAlbumsTape, getView, get
 import index from '../styles/styles.scss';
 import { PLUGIN_WRAP, PLUGIN_NAME, FUL_SIZE_NAME, DISABLE_ARROW } from './constants';
 
-class Plugin {
-    constructor() {
+export default class Plugin{
+    constructor(params = {}) {
+        this.apiKey = "5de920292755500b8a793e755f255045";
+        this.userId = "186386015@N03";
+
+        if (!params.userId && !params.apiKey) alert("You didn't enter actual params. Plugin wil use default params");
+
+        Object.assign(this, params);
         this.getAlbumsCollection();
     }
 
     getAlbumsCollection(albumId) {
-        getAlbums()
+        getAlbums(this)
             .then(((data) => {
                 this.albums = data.photosets.photoset;
                 const selectedAlbumIndex = this.albums.findIndex(elem => albumId === elem.id);
                 const albumIndex = (selectedAlbumIndex !== -1) ? selectedAlbumIndex : 0;
 
-                if (this.albums[albumIndex]) return getAlbumImages(this.albums[albumIndex].id);
+                if (this.albums[albumIndex]) return getAlbumImages(this.albums[albumIndex].id, this);
             }).bind(this))
             .catch(() => console.error("We fuck up! Sorry, our best samurai are already fixing the problem"))
             .then(((album) => {
@@ -26,7 +32,7 @@ class Plugin {
                 let photoIds = this.photos.map(elem => elem.id);
 
                 return Promise.all(
-                    photoIds.map((id) => getImage(id))
+                    photoIds.map((id) => getImage(id, this))
                 );
             }).bind(this))
             .catch(() => console.error("Sorry, damned nakers stole photos from the gallery. But we hired a witcher and he will soon solve the problem"))
@@ -150,8 +156,6 @@ class Plugin {
         arrow.classList.toggle(DISABLE_ARROW);
     };
 }
-
-export const slider = new Plugin();
 
 
 
