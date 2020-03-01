@@ -1,0 +1,26 @@
+%tape {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  overflow-x: scroll;
+}
+
+%arrow-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+%arrow-shadow {
+  content: "";
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  position: absolute;
+  box-shadow: 21px -3px 20px 39px white;
+}
+

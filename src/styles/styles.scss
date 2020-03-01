@@ -1,3 +1,5 @@
+@import "./vendors/extends";
+
 .plugin {
   margin: 0 auto;
   max-width: 1280px;
@@ -9,11 +11,33 @@
   flex-direction: column;
 
   &_tape {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-bottom: 10px;
-    overflow-x: scroll;
+    &__album {
+      @extend %tape;
+
+      @media (max-width: 573px) {
+        display: none;
+        }
+
+      &-select {
+        width: 100%;
+        margin: 0 auto;
+        display: none;
+        cursor: pointer;
+
+        @media (max-width: 573px) {
+          display: block;
+        }
+      }
+    }
+
+    &__photo {
+      @extend %tape;
+
+      @media (max-width: 573px) {
+        display: none;
+      }
+    }
+
 
     &__item {
       width: 240px;
@@ -25,12 +49,14 @@
       background-size: 182px 141px;
       background-repeat: no-repeat;
       background-position: center;
+      margin: 10px;
+      min-width: 240px;
+      cursor: pointer;
     }
 
     &__image {
       max-width: 240px;
       max-height: 135px;
-
     }
   }
 
@@ -45,23 +71,65 @@
 
 .view {
   &_wrapper {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
+
+    @media (max-width: 1205px) {
+      position: absolute;
+      left: 50px;
+    }
+
+    &__left {
+      @extend %arrow-wrapper;
+      &::before {
+
+        left: 5px;
+        @extend %arrow-shadow;
+        
+        @media (max-width: 580px) {
+          box-shadow: 28px -3px 20px 26px white;
+        }
+      }
+
+      @media (max-width: 1205px) {
+        position: absolute;
+        left: 60px;
+      }
+    }
+
+    &__right {
+      @extend %arrow-wrapper;
+
+      &::before {
+        right: 48px;
+
+        @extend %arrow-shadow;
+
+        @media (max-width: 580px) {
+          box-shadow: 21px -3px 20px 26px white;
+        }
+      }
+
+
+      @media (max-width: 1205px) {
+        position: absolute;
+        right: 60px;
+      }
+    }
 
   }
 
   &_image {
-    width: 975px;
-    height: 572px;
+    width: 100%;
+    height: auto;
   }
 
   &_image__wrapper {
     width: 975px;
     height: 575px;
+
+    @media (max-width: 1205px) {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &_arrow {
@@ -69,6 +137,11 @@
     height: 40px;
     transform: rotate(45deg);
     margin: 0 auto;
+
+    @media (max-width: 568px) {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 
@@ -92,9 +165,25 @@
 .left {
   border-left: 7px solid black;
   border-bottom: 7px solid black;
+  cursor: pointer;
+
+  @media (max-width: 568px) {
+    border-left: 3px solid black;
+    border-bottom: 3px solid black;
+  }
 }
 
 .right {
   border-right: 7px solid black;
   border-top: 7px solid black;
+  cursor: pointer;
+
+  @media (max-width: 568px) {
+    border-right: 3px solid black;
+    border-top: 3px solid black;
+  }
+}
+
+.disable {
+  visibility: hidden;
 }

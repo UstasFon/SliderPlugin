@@ -1,4 +1,5 @@
-import {pluginName} from "./constants";
+// TODO -  rename DISABLE_ARROW to DISABLE_ARROW_CLASS
+import { PLUGIN_NAME, DISABLE_ARROW } from "./constants";
 
 export const albumReducer = ((albums, { title: { _content: title }, id: albumID}) => {
     const albumTemplate =
@@ -18,8 +19,9 @@ export const prevImagesReducer = (images, { sizes, id: photoId  }) => {
     return images + imageTemplate;
 };
 
-export const getPlugin = (albumsTape, view, photoTape) => (
-    `<div> 
+export const getPlugin = (albumsTape, view, photoTape, albumSelect) => (
+    `<div>
+         ${albumSelect}
          ${albumsTape}
          ${view}
          ${photoTape}
@@ -27,29 +29,48 @@ export const getPlugin = (albumsTape, view, photoTape) => (
 );
 
 export const getAlbumsTape = (albumsList, pluginName) => (
-    `<div id="${pluginName}Album" class="plugin_tape">${albumsList}</div>`
+    `<div id="${pluginName}Album" class="plugin_tape__album">${albumsList}</div>`
 );
 
-export const getView = ({ sizes }, pluginName) => {
-    const fulSizeName = 'Original';
-    //TODO - move this shit(fulSizeName) to global const
-    const currentViewSize = sizes.find((elem) => elem.label === fulSizeName);
+export const getView = ({ sizes }, pluginName, FUL_SIZE_NAME) => {
+    const currentViewSize = sizes.find((elem) => elem.label === FUL_SIZE_NAME);
     const viewElement =
         `<div id="view" class="plugin_view">
-            <div class="view_wrapper">
-                <div id="${pluginName}ArrowLeft" class="view_arrow left"></div>
+            <div id="${PLUGIN_NAME}ArrowLeftWrapper" class="view_wrapper__left ${DISABLE_ARROW}">
+                <div id="${PLUGIN_NAME}ArrowLeft" class="view_arrow left"></div>
             </div>
             <div class="view_image__wrapper">
                 <img src="${currentViewSize.source}" alt="" class="view_image">
             </div>
-            <div class="view_wrapper">
-                <div id="${pluginName}ArrowRight" class="view_arrow right"></div>
+            <div id="${PLUGIN_NAME}ArrowRightWrapper" class="view_wrapper__right">
+                <div id="${PLUGIN_NAME}ArrowRight" class="view_arrow right"></div>
             </div>
         </div>`;
 
     return viewElement;
 };
 
-export const getPhotos = (firstPagePhotos, pluginName) => (
-    `<div id="${pluginName}Images" class="plugin_tape">${firstPagePhotos}</div>`
+export const getPhotos = (firstPagePhotos) => (
+    `<div id="${PLUGIN_NAME}Images" class="plugin_tape__photo">${firstPagePhotos}</div>`
 );
+
+
+export const getAlbumsSelect = (albums) => {
+    let albumsReducer =  (options, { title: {_content: title }, id: albumID})=> {
+        const option =
+        `<option value="${albumID}">
+            <p class="tape_item__name">${title}</p>
+         </option>`;
+
+        return options + option;
+    };
+    const albumsList = albums.reduce(albumsReducer, '');
+    const albumSelect =
+        `<select id="${PLUGIN_NAME}SelectAlbum" class="plugin_tape__album-select">
+             ${albumsList}
+        </select>`;
+
+
+
+    return albumSelect;
+};
